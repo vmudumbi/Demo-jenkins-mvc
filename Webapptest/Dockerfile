@@ -6,14 +6,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["./Webapptest.csproj", "."]
-RUN dotnet restore "./Webapptest.csproj"
+COPY ["Webapptest/Webapptest.csproj", "Webapptest/"]
+RUN dotnet restore "Webapptest/Webapptest.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./Webapptest.csproj" -c Release -o /app/build
+WORKDIR "/src/Webapptest"
+RUN dotnet build "Webapptest.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "./Webapptest.csproj" -c Release -o /app/publish
+RUN dotnet publish "Webapptest.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
